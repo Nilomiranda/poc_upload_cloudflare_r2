@@ -1,0 +1,31 @@
+<main class="flex flex-col items-center gap-y-10">
+    <h1>Welcome to LiveUpload POC</h1>
+
+    <div>
+        <p>Entries</p>
+
+        <%= for entry <- @uploads.audio.entries do %>
+            <strong>Name: <%= entry.client_name %></strong>
+
+            <%!-- <figure>
+                <.live_img_preview entry={entry} />
+                <figcaption><%= entry.client_name %></figcaption>
+            </figure> --%>
+
+            <progress value={entry.progress} max="100"><%= entry.progress %></progress>
+        <% end %>
+    </div>
+
+    <form class="flex flex-col gap-y-4" id="upload-form" phx-submit="save" phx-change="validate">
+        <.live_file_input upload={@uploads.audio} />
+        <button class="px-6 py-3 bg-blue-500 text-white" type="submit">Save file</button>
+    </form>
+
+    
+    <div>
+        <p>Upload errors:</p>
+        <%= for err <- upload_errors(@uploads.audio) do %>
+            <p class="alert alert-danger"><%= error_to_string(err) %></p>
+        <% end %>
+    </div>
+</main>
